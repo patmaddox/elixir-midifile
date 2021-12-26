@@ -4,8 +4,10 @@ defmodule Midifile.Mixfile do
   def project do
     [
       app: :midifile,
+      name: "Midifile",
       version: "0.1.0",
-      deps: deps()
+      deps: deps(),
+      docs: docs()
     ]
   end
 
@@ -17,6 +19,15 @@ defmodule Midifile.Mixfile do
   # Returns the list of dependencies in the format:
   # { :foobar, "0.1", git: "https://github.com/elixir-lang/foobar.git" }
   defp deps do
-    []
+    [
+      {:ex_doc, "~> 0.26.0", only: :dev, runtime: false}
+    ]
+  end
+
+  defp docs do
+    [
+      extras: ["README.md"],
+      main: "readme"
+    ]
   end
 end
