@@ -110,28 +110,10 @@ examples directory, which are described below.
 
 ### Reading a MIDI File
 
-To read a MIDI file, create a `Midifile.Sequence` object and call its `#read` method,
-passing in an IO object.
+To read a MIDI file, call `Midifile.read/1`, passing the path to the MIDI file:
 
-The #read method takes an optional block. If present, the block is called
-once after each track has finished being read. Each time, it is passed the
-track object, the total number of tracks and the number of the current track
-that has just been read. This is useful for notifying the user of progress,
-for example by updating a GUI progress bar.
-
-```ruby
-require 'Midifile/io/seqreader'
-
-# Create a new, empty sequence.
-seq = Midifile.Sequence.new
-
-# Read the contents of a MIDI file into the sequence.
-File.open('my_midi_file.mid', 'rb') do |file|
-  seq.read(file) do |_track, num_tracks, i|
-    # Print something when each track is read.
-    puts "read track #{i} of #{num_tracks}"
-  end
-end
+```elixir
+sequence = Midifile.read("my_midi_file.md")
 ```
 
 
