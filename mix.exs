@@ -4,7 +4,7 @@ defmodule Midifile.Mixfile do
   def project do
     [
       app: :midifile,
-      version: "1.0.0",
+      version: "0.1.0",
       deps: deps()
     ]
   end
