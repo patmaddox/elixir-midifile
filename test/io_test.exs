@@ -16,8 +16,9 @@ defmodule IoTest do
   def compare_sequences(s0, s1) do
     assert(Sequence.name(s0) == Sequence.name(s1))
     assert(length(s0.tracks) == length(s1.tracks))
+
     Enum.zip(s0.tracks, s1.tracks)
-    |> Enum.map(fn({t0, t1}) -> compare_tracks(t0, t1) end)
+    |> Enum.map(fn {t0, t1} -> compare_tracks(t0, t1) end)
   end
 
   test "read and write" do

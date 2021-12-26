@@ -2,9 +2,11 @@ defmodule Midifile.Mixfile do
   use Mix.Project
 
   def project do
-    [ app: :midifile,
+    [
+      app: :midifile,
       version: "1.0.0",
-      deps: deps ]
+      deps: deps()
+    ]
   end
 
   # Configuration for the OTP application

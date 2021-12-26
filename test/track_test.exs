@@ -17,8 +17,8 @@ defmodule TrackTest do
 
   test "quantize", context do
     t = Track.quantize(context[:track], 80)
-    assert [80, 240, 320] = t.events |> Event.start_times
-    deltas = t.events |> Enum.map(&(&1.delta_time))
+    assert [80, 240, 320] = t.events |> Event.start_times()
+    deltas = t.events |> Enum.map(& &1.delta_time)
     assert [80, 160, 80] = deltas
   end
 end
