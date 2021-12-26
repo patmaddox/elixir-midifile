@@ -117,32 +117,35 @@ track object, the total number of tracks and the number of the current track
 that has just been read. This is useful for notifying the user of progress,
 for example by updating a GUI progress bar.
 
- require 'Midifile/io/seqreader'
+```ruby
+require 'Midifile/io/seqreader'
 
- # Create a new, empty sequence.
- seq = Midifile.Sequence.new()
+# Create a new, empty sequence.
+seq = Midifile.Sequence.new
 
- # Read the contents of a MIDI file into the sequence.
- File.open('my_midi_file.mid', 'rb') { | file |
-     seq.read(file) { | track, num_tracks, i |
-         # Print something when each track is read.
-         puts "read track #{i} of #{num_tracks}"
-     }
- }
+# Read the contents of a MIDI file into the sequence.
+File.open('my_midi_file.mid', 'rb') do |file|
+  seq.read(file) do |_track, num_tracks, i|
+    # Print something when each track is read.
+    puts "read track #{i} of #{num_tracks}"
+  end
+end
+```
 
 
 ### Writing a MIDI File
 
 To write a MIDI file, call the write method, passing in an IO object.
 
+```ruby
+require 'Midifile/io/seqwriter'
 
- require 'Midifile/io/seqwriter'
+# Start with a sequence that has something worth saving.
+seq = read_or_create_seq_we_care_not_how()
 
- # Start with a sequence that has something worth saving.
- seq = read_or_create_seq_we_care_not_how()
-
- # Write the sequence to a MIDI file.
- File.open('my_output_file.mid', 'wb') { | file | seq.write(file) }
+# Write the sequence to a MIDI file.
+File.open('my_output_file.mid', 'wb') { | file | seq.write(file) }
+```
 
 
 ### Editing a MIDI File
@@ -157,45 +160,46 @@ pressure) on channel 5 down one octave.
 
 #### Transposing One Channel
 
- require 'Midifile/io/seqreader'
- require 'Midifile/io/seqwriter'
+```ruby
+require 'Midifile/io/seqreader'
+require 'Midifile/io/seqwriter'
 
- # Create a new, empty sequence.
- seq = Midifile.Sequence.new()
+# Create a new, empty sequence.
+seq = Midifile.Sequence.new
 
- # Read the contents of a MIDI file into the sequence.
- File.open('my_input_file.mid', 'rb') { | file |
-     seq.read(file) { | track, num_tracks, i |
-         # Print something when each track is read.
-         puts "read track #{i} of #{num_tracks}"
-     }
- }
+# Read the contents of a MIDI file into the sequence.
+File.open('my_input_file.mid', 'rb') do |file|
+  seq.read(file) do |_track, num_tracks, i|
+    # Print something when each track is read.
+    puts "read track #{i} of #{num_tracks}"
+  end
+end
 
- # Iterate over every event in every track.
- seq.each { | track |
-     track.each { | event |
-         # If the event is a note event (note on, note off, or poly
-         # pressure) and it is on MIDI channel 5 (channels start at
-         # 0, so we use 4), then transpose the event down one octave.
-         if Midifile.NoteEvent === event && event.channel == 4
-             event.note -= 12
-         end
-     }
- }
+# Iterate over every event in every track.
+seq.each do |track|
+  track.each do |event|
+    # If the event is a note event (note on, note off, or poly
+    # pressure) and it is on MIDI channel 5 (channels start at
+    # 0, so we use 4), then transpose the event down one octave.
+    event.note -= 12 if Midifile.NoteEvent === event && event.channel == 4
+  end
+end
 
- # Write the sequence to a MIDI file.
- File.open('my_output_file.mid', 'wb') { | file | seq.write(file) }
-
+# Write the sequence to a MIDI file.
+File.open('my_output_file.mid', 'wb') { |file| seq.write(file) }
+```
 
 ### Manipulating tracks
 
 If you modify a track's list of events directly, don't forget to call
 Midifile.Track#recalc_times when you are done.
 
- track.events[42, 1] = array_of_events
- track.events << an_event
- track.merge(array_of_events)
- track.recalc_times
+```ruby
+track.events[42, 1] = array_of_events
+track.events << an_event
+track.merge(array_of_events)
+track.recalc_times
+```
 
 ### Calculating delta times
 
